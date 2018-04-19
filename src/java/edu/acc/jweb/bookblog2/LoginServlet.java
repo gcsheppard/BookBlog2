@@ -25,9 +25,8 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         String username = (String) request.getParameter("username");
         String password = (String) request.getParameter("password");
-        User user = new User(username, password);
         UserManager userManager = (UserManager) getServletContext().getAttribute("userManager");
-        user = userManager.validateUser(user);
+        User user = userManager.validateUser(username, password);
         if (user != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
@@ -43,6 +42,5 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute("flash", flash);
             getServletContext().getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);   
         }
-                         
     }
 }
