@@ -3,18 +3,19 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="/BookBlog/styles/styles.css">
+        <link rel="stylesheet" href="/BookBlog2/styles/styles.css">
     </head>
     <body>
-        <p>Books:</p>
+        <p>Book Reviews:</p>
         <ul>
             <c:forEach var="book" items="${books}">
                 <li>
                     <div class ="f">Title: <c:out value = "${book.title}"/><br>
-                    Author: <c:out value = "${book.author}"/><br>
-                    ISBN: <c:out value = "${book.ISBN}"/><br>
-                    Review: </div>
-                    <div class="g"><c:out value = "${book.review}"/></div>
+                    Genre: <c:out value = "${book.genre}"/><br>
+                    Rating: <c:forEach begin="1" end="${book.rating}">
+                        <img src ="/BookBlog2/images/bluestar.jpg" width = "15">
+                          </c:forEach><br>
+                    <a href="details?id=${book.id}">Details</a></div>
                 </li>
                 <hr>
             </c:forEach>
@@ -22,11 +23,11 @@
             <br>
         <c:choose>
             <c:when test = "${user == null}">
-                <br><div class="d"><a href="/BookBlog/login">Login</a></div><br>
+                <br><div class="d"><a href="/BookBlog2/login">Login</a></div><br>
             </c:when>
             <c:otherwise>
-                <br><div class="d"><a href="/BookBlog/logout">Logout</a></div><br>
-                <br><div class="d"><a href="/BookBlog/addbook">Add Book</a></div><br>
+                <br><div class="d"><a href="/BookBlog2/logout">Logout</a></div><br>
+                <br><div class="d"><a href="/BookBlog2/addbook">Add Book</a></div><br>
             </c:otherwise>
         </c:choose>
     </body>

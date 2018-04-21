@@ -1,10 +1,7 @@
 package edu.acc.jweb.bookblog2;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import javax.annotation.Resource;
 import javax.annotation.sql.DataSourceDefinition;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -24,16 +21,13 @@ public class BookBlogListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        try {
-            Connection connection = dataSource.getConnection();
-            sce.getServletContext().setAttribute("bookManager", new BookManager(connection));
+            sce.getServletContext().setAttribute("bookManager", new BookManager(dataSource));
                 
-            UserManager userManager = new UserManager();
-            userManager.addUser("anna", "pigeon");
+            UserManager userManager = new UserManager(dataSource);
+            userManager.addUser("anna", "pigeon", "Contributor");
+            userManager.addUser("kinsey", "millhone", "Contributor");
+            userManager.addUser("arthur", "clarke", "Contributor");
             sce.getServletContext().setAttribute("userManager", userManager);
-        } catch (SQLException sqle) {
-            throw new RuntimeException(sqle);
-        }
     }
 
     @Override

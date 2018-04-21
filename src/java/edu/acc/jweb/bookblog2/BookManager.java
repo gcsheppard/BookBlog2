@@ -1,26 +1,72 @@
 package edu.acc.jweb.bookblog2;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.sql.DataSource;
 
 public class BookManager {
-    private final ArrayList<Book> list;
-    private final Connection connection;
+    private final DataSource dataSource;
     
-    public BookManager (Connection connection) {
-        this.list = new ArrayList<>();
-        this.connection = connection;
+    public BookManager (DataSource dataSource) {
+        this.dataSource = dataSource;
     }
     
-    public void addBook(String title, String author, String isbn, String review) {
-        Book book = new Book(title, author, isbn, review);
-        list.add(book);
-        while (list.size() > 10) {
-            list.remove(0);
-        }
+    public void addBook(String title, String author, String genre, String isbn, Integer rating, String reviewer, String review) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement("INSERT INTO Books (title, author, genre, isbn, rating, reviewer, review) values (?,?,?,?,?,?,?)");
+            statement.setString(1, title);
+            statement.setString(2, author);
+            statement.setString(3, genre);
+            statement.setString(4, isbn);
+            statement.setInt(5, rating);
+            statement.setString(6, reviewer);
+            statement.setString(7, review);
+            statement.executeUpdate();
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } finally {
+            try {
+                if (statement != null) { 
+                    statement.close();
+                } 
+                if (connection != null) { 
+                    connection.close();
+                } 
+            } catch (SQLException sqle) {
+                throw new RuntimeException(sqle);
+            }
+        }   
+
     }
     
     public ArrayList<Book> getBooks() {
+        ArrayList<Book> list = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM books");
+            ResultSet resultSet = statement.executeQuery()) {
+            
+            while (resultSet.next()) {
+                Book book = new Book();
+                book.setId(resultSet.getInt("id"));
+                book.setTitle(resultSet.getString("title"));
+                book.setAuthor(resultSet.getString("author"));
+                book.setGenre(resultSet.getString("genre"));
+                book.setIsbn(resultSet.getString("isbn"));
+                book.setReviewer(resultSet.getString("reviewer"));
+                book.setRating(resultSet.getInt("rating"));
+                book.setReview(resultSet.getString("review"));
+                book.setDate(resultSet.getDate("date"));
+                list.add(book);
+            }
+        } catch(SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } 
         return list;
     }
     

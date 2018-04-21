@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
             BookManager bookManager = (BookManager) getServletContext().getAttribute("bookManager");
             ArrayList<Book> books = bookManager.getBooks();
             request.setAttribute("books", books);
-            response.sendRedirect("/BookBlog/home");
+            response.sendRedirect("/BookBlog2/home");
         }
         else {
             flash = "Login failed.";

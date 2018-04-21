@@ -23,16 +23,19 @@ public class AddBookServlet extends HttpServlet {
         
         String title = request.getParameter("title");
         String author = request.getParameter("author");
+        String genre = request.getParameter("genre");
         String isbn = request.getParameter("isbn");
+        Integer rating = Integer.getInteger(request.getParameter("rating"));
+        String reviewer = request.getParameter("reviewer");
         String review = request.getParameter("review");
         
-        Book book = new Book(title, author, isbn, review);
+        Book book = new Book(title, author, genre, isbn, rating, reviewer, review);
         BookManager bookManager = (BookManager) getServletContext().getAttribute("bookManager");
         String errors = bookManager.validBook(book);
         
         if (errors.isEmpty()) {
-            bookManager.addBook(title, author, isbn, review);
-            response.sendRedirect("/BookBlog/home"); 
+            bookManager.addBook(title, author, genre, isbn, rating, reviewer, review);
+            response.sendRedirect("/BookBlog2/home"); 
         }
         else {
             //put attribute book in request

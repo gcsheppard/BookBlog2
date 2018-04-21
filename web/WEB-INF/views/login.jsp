@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="/BookBlog/styles/styles.css">
+        <link rel="stylesheet" href="/BookBlog2/styles/styles.css">
     </head>
     <body>
         <h1><c:out value = "${flash}"/></h1>

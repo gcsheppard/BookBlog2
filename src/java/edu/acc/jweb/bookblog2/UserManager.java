@@ -1,17 +1,43 @@
 package edu.acc.jweb.bookblog2;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.sql.DataSource;
 
 public class UserManager {
-    private final ArrayList<User> list;
+    private final DataSource dataSource;
     
-    public UserManager () {
-        this.list = new ArrayList<>();
+    public UserManager (DataSource dataSource) {
+        this.dataSource = dataSource;
     }
     
-    public void addUser(String username, String password) {
-        User user = new User(username, password);
-        this.list.add(user);
+    public void addUser(String username, String password, String userrole) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement("INSERT INTO Users (username, password, userrole) values (?,?,?)");
+            statement.setString(1, username);
+            statement.setString(2, PasswordHash.hashPassword(password));
+            statement.setString(3, userrole);
+            statement.executeUpdate();
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } finally {
+            try {
+                if (statement != null) { 
+                    statement.close();
+                } 
+                if (connection != null) { 
+                    connection.close();
+                } 
+            } catch (SQLException sqle) {
+                throw new RuntimeException(sqle);
+            }
+        }   
     }
     
     public User validateUser(String username, String password) {
@@ -30,11 +56,24 @@ public class UserManager {
     }
     
     public User findUser(String username) {
-        for(User user : list) {
-            if (user.getUsername().equals(username)) {
+        
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Users WHERE username = ?");
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                User user = new User();
+                user.setUsername(resultSet.getString("username"));
+                user.setPassword(resultSet.getString("password"));
+                user.setUserrole(resultSet.getString("userrole")); 
                 return user;
             }
-        }
-        return null;
+            else {
+                return null;
+            }
+        } catch(SQLException sqle) {
+            throw new RuntimeException(sqle);
+        }            
     }
 }

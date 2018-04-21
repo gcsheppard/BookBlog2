@@ -1,17 +1,29 @@
-drop table Books;
+DROP TABLE Books;
 
-create table Books (
+CREATE TABLE Books (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     title VARCHAR(128),
     author VARCHAR(128),
+    genre VARCHAR(32),
     isbn VARCHAR(16),
+    rating INTEGER,
+    reviewer VARCHAR(32),
     review VARCHAR(1024),
     date DATE NOT NULL WITH DEFAULT CURRENT DATE
 );
 
-insert into Books(title, author, isbn, review) 
-    values('The Hobbit', 'J.R.R. Tolkien', '978-0618968633', 'What can you say about a classic? Great book. Everyone should read it. Dragons, elves, magic & more...');
-insert into Books(title, author, isbn, review) 
-    values('The Black Echo', 'Michael Connelly', '978-0316153614', 'LAPD Detective Harry Bosch likes order, contends that there are no coincidences, and keeps meticulous records in his murder book. A real page turner with gutty realism and an unusual twist.');
-insert into Books(title, author, isbn, review) 
-    values('Shane', 'Jack Schaefer', '978-0544239470', 'Roland Smith said: If you read only one western in your life, this is the one. I can''t say it better.');
+INSERT INTO Books(title, author, genre, isbn, rating, review) 
+    VALUES('The Hobbit', 'J.R.R. Tolkien', 'Fantasy', '978-0618968633', 5, 'What can you say about a classic? Great book. Everyone should read it. Dragons, elves, magic & more...');
+INSERT INTO Books(title, author, genre, isbn, rating, review) 
+    VALUES('The Black Echo', 'Michael Connelly', 'Mystery', '978-0316153614', 5, 'LAPD Detective Harry Bosch likes order, contends that there are no coincidences, and keeps meticulous records in his murder book. A real page turner with gutty realism and an unusual twist.');
+INSERT INTO Books(title, author, genre, isbn, rating, review) 
+    VALUES('Shane', 'Jack Schaefer', 'Western', '978-0544239470', 5, 'Roland Smith said: If you read only one western in your life, this is the one. I can''t say it better.');
+
+DROP TABLE Users;
+
+CREATE TABLE Users (
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    username VARCHAR(32),
+    password VARCHAR(512),
+    userrole VARCHAR(32)
+);
