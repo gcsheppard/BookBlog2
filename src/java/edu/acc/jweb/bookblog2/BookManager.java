@@ -48,7 +48,7 @@ public class BookManager {
     public ArrayList<Book> getBooks() {
         ArrayList<Book> list = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM books");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Books ORDER BY title");
             ResultSet resultSet = statement.executeQuery()) {
             
             while (resultSet.next()) {

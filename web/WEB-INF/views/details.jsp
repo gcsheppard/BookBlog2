@@ -14,7 +14,7 @@
                     <div class ="f">Title: <c:out value = "${book.title}"/><br>
                     Author: <c:out value = "${book.author}"/><br>
                     Genre: <c:out value = "${book.genre}"/><br>
-                    ISBN: <c:out value = "${book.isbn}"/><br>
+                    ISBN: <c:out value = "${book.isbn}"/><br><br>
                     Rating: <c:forEach begin="1" end="${book.rating}">
                         <img src ="/BookBlog2/images/bluestar.jpg" width = "15">
                           </c:forEach><br>
