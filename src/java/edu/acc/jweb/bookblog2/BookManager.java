@@ -52,16 +52,7 @@ public class BookManager {
             ResultSet resultSet = statement.executeQuery()) {
             
             while (resultSet.next()) {
-                Book book = new Book();
-                book.setId(resultSet.getInt("id"));
-                book.setTitle(resultSet.getString("title"));
-                book.setAuthor(resultSet.getString("author"));
-                book.setGenre(resultSet.getString("genre"));
-                book.setIsbn(resultSet.getString("isbn"));
-                book.setReviewer(resultSet.getString("reviewer"));
-                book.setRating(resultSet.getInt("rating"));
-                book.setReview(resultSet.getString("review"));
-                book.setDate(resultSet.getDate("date"));
+                Book book = bookFromDB(resultSet);
                 list.add(book);
             }
         } catch(SQLException sqle) {
@@ -80,5 +71,38 @@ public class BookManager {
         if (!errors.isEmpty()) errors = "Error(s):<br>" + errors;
         
         return errors;
+    }
+    
+    public Book findBookById(Integer id) {
+        Book book = null;
+        String sql = "select * from Books where id = " + id;
+        try (Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery()) {
+            if (resultSet.next()) {
+                book = bookFromDB(resultSet);
+            }
+        } catch(SQLException sqle) {
+            throw new RuntimeException(sqle);
+        }
+        return book;
+    }
+    
+    private Book bookFromDB(ResultSet resultSet) {
+        Book book = new Book();
+        try {
+            book.setId(resultSet.getInt("id"));
+            book.setTitle(resultSet.getString("title"));
+            book.setAuthor(resultSet.getString("author"));
+            book.setGenre(resultSet.getString("genre"));
+            book.setIsbn(resultSet.getString("isbn"));
+            book.setReviewer(resultSet.getString("reviewer"));
+            book.setRating(resultSet.getInt("rating"));
+            book.setReview(resultSet.getString("review"));
+            book.setDate(resultSet.getDate("date"));
+            return book;
+        } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);
+        }
     }
 }
