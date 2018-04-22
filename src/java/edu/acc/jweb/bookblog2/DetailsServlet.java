@@ -1,4 +1,3 @@
-
 package edu.acc.jweb.bookblog2;
 
 import java.io.IOException;
@@ -8,10 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Gene
- */
 @WebServlet(urlPatterns = {"/details"})
 public class DetailsServlet extends HttpServlet {
 
