@@ -1,5 +1,9 @@
 package edu.acc.jweb.bookblog2;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.annotation.Resource;
 import javax.annotation.sql.DataSourceDefinition;
 import javax.servlet.ServletContextEvent;
@@ -22,7 +26,14 @@ public class BookBlogListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
             sce.getServletContext().setAttribute("bookManager", new BookManager(dataSource));
-                
+            
+            try {
+                Connection connection = dataSource.getConnection();
+                PreparedStatement statement = connection.prepareStatement("DELETE FROM Users");
+                statement.executeUpdate();
+            } catch (SQLException sqle) {
+            throw new RuntimeException(sqle);    
+            }
             UserManager userManager = new UserManager(dataSource);
             userManager.addUser("anna", "pigeon", "Contributor");
             userManager.addUser("kinsey", "millhone", "Contributor");
