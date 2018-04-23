@@ -17,7 +17,8 @@ public class ShowServlet extends HttpServlet {
         
         String show = (String) request.getParameter("show");
         HttpSession session = request.getSession();
-        session.setAttribute("show", show);
+        User user = (User) session.getAttribute("user");
+        user.setShow(show);
         getServletContext().getRequestDispatcher("/home").forward(request, response);
     }
     

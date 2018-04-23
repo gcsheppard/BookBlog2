@@ -18,10 +18,11 @@ public class UserManager {
         PreparedStatement statement = null;
         try {
             connection = dataSource.getConnection();
-            statement = connection.prepareStatement("INSERT INTO Users (username, password, userrole) values (?,?,?)");
+            statement = connection.prepareStatement("INSERT INTO Users (username, password, userrole, show) values (?,?,?,?)");
             statement.setString(1, username);
             statement.setString(2, PasswordHash.hashPassword(password));
             statement.setString(3, userrole);
+            statement.setString(4, "all");
             statement.executeUpdate();
         } catch (SQLException sqle) {
             throw new RuntimeException(sqle);

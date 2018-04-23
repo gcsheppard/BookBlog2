@@ -18,13 +18,14 @@ public class BookBlogServlet extends HttpServlet {
         ArrayList<Book> books = null;
         BookManager bookManager = (BookManager) getServletContext().getAttribute("bookManager");
         HttpSession session = request.getSession();
-        String show = (String) session.getAttribute("show");
-        if (show == null) {
-            show = "all";
-        }
-        if (show.equalsIgnoreCase("mine")) {
-            User user = (User) session.getAttribute("user");
-            books = bookManager.getBooksByReviewer(user);
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
+            String show = (String) user.getShow();
+            if (show.equalsIgnoreCase("mine")) {
+                books = bookManager.getBooksByReviewer(user);
+            } else {
+                books = bookManager.getBooks();
+            }
         } else {
             books = bookManager.getBooks();
         }

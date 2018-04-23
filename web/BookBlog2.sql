@@ -25,5 +25,6 @@ CREATE TABLE Users (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     username VARCHAR(32) UNIQUE,
     password VARCHAR(512),
-    userrole VARCHAR(32)
+    userrole VARCHAR(32),
+    show VARCHAR(16)
 );

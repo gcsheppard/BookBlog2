@@ -27,8 +27,14 @@
             </c:when>
             <c:otherwise>
                 <br><div class="d"><a href="/BookBlog2/logout">Logout</a></div><br>
-                <br><div class="d"><a href="/BookBlog2/addbook">Add Book</a></div><br>
-                <br><div class="d"><a href="/BookBlog2/show?show=mine">Show my reviews only</a></div><br>
+                <c:choose>
+                    <c:when test = "${user.show eq 'all'}">
+                        <br><div class="d"><a href="/BookBlog2/show?show=mine">Show my reviews only</a></div><br>
+                    </c:when>
+                    <c:otherwise>
+                        <br><div class="d"><a href="/BookBlog2/show?show=all">Show all reviews</a></div><br>
+                    </c:otherwise>
+                </c:choose>
             </c:otherwise>
         </c:choose>
     </body>

@@ -4,13 +4,17 @@ public class User {
     public String username;
     public String password;
     public String userrole;
+    public String show;
     
-    public User () {}
+    public User () {
+        this.show = "all";
+    }
 
     public User (String username, String password, String userrole) {
         this.username = username;
         this.password = PasswordHash.hashPassword(password);
         this.userrole = userrole;
+        this.show = "all";
     }
     
     public String getUsername() {
@@ -25,6 +29,10 @@ public class User {
         return this.userrole;
     }
     
+    public String getShow() {
+        return this.show;
+    }
+    
     public void setUsername(String username) {
         this.username = username;
     }
@@ -37,4 +45,7 @@ public class User {
         this.userrole = userrole;
     }
 
+    public void setShow(String show) {
+        this.show = show;
+    }
 }
