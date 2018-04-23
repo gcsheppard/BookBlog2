@@ -61,6 +61,24 @@ public class BookManager {
         return list;
     }
     
+        public ArrayList<Book> getBooksByReviewer(User user) {
+        ArrayList<Book> list = new ArrayList<>();
+        String sql = "SELECT * FROM Books WHERE reviewer = '" + user.username + "' ORDER BY title";
+        try (Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery()) {
+            
+            while (resultSet.next()) {
+                Book book = bookFromDB(resultSet);
+                list.add(book);
+            }
+        } catch(SQLException sqle) {
+            throw new RuntimeException(sqle);
+        } 
+        return list;
+    }
+
+    
     public String validBook(Book book) {
         String errors = "";
         
