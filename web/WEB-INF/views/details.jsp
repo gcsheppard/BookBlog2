@@ -18,7 +18,7 @@
                     Rating: <c:forEach begin="1" end="${book.rating}">
                         <img src ="/BookBlog2/images/bluestar.jpg" width = "15">
                           </c:forEach><br>
-                    Review by: <c:out value = "${book.reviewer}"/><br>
+                    Review by: <c:out value = "${book.reviewer} (${book.date})"/><br>
                     Review: </div>
                     <div class="g"><c:out value = "${book.review}"/></div>
                     </div>

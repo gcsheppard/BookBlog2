@@ -81,7 +81,7 @@ public class BookManager {
     
     public String validBook(Book book) {
         String errors = "";
-        
+        //more fields to add
         if (book.title.isEmpty()) errors = errors + "Title not entered.<br>";
         if (book.author.isEmpty()) errors = errors + "Author not entered.<br>";
         if (book.isbn.isEmpty()) errors = errors + "ISBN not entered.<br>";
